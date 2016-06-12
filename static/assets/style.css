@@ -1,0 +1,71 @@
+#header-region {
+  padding-top: 1em;
+}
+
+/* Site banner styling */
+#header-region h1.site-header {
+  font: 5em 'open sans condensed', serif;
+  text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+  margin-bottom: 0;
+}
+#header-region a {
+  color: yellow;
+}
+
+.big-message {
+  font: 3em 'open sans condensed', serif;
+  padding-top: 2em;
+  color: darkgray;
+}
+
+/* The loader looks funny with our page background colour
+   so make make the background transparent */
+.active.transparent.dimmer {
+  background-color: transparent;
+}
+
+/* Always show the scrollbar, otherwise the width of
+   the page changes when result lengths change, and
+   causes the layout to shift slightly */
+body {
+    overflow-y: scroll;
+}
+
+/* Grayscale image filter for user cards with no messages */
+.grayscale img {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+h1.site-header span {
+  font-size: 0.3em;
+}
+
+/* Chromes auto fill makes the text box yellow and kind of ugly.
+   so make it white instead. */
+#search-term:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+div.site-content>div.ui.masthead {
+  background-color: lightcoral;
+}
+/* Sticky footer */
+#footer {
+  margin: 0;
+  margin-top: 3em;
+  padding: 0;
+  padding-top: 2em;
+  min-height: 6em;
+  color: gray;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.site-content {
+  flex: 1;
+}
