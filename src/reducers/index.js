@@ -1,6 +1,16 @@
 import { combineReducers } from 'redux'
-
 import { routerReducer } from 'react-router-redux'
+
+import * as Actions from '../actions/actions';
+
+function currentBot(state = '', action){
+  switch(action.type){
+    case Actions.SELECT_BOT:
+      return action.api_key;
+    default: 
+      return state;
+  }
+}
 
 /*import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
@@ -62,10 +72,65 @@ const rootReducer = combineReducers({
 })
 */
 
-const rootReducer = (state = { }, action ) => state;
-
-
 export default combineReducers({
-    rootReducer,
+    currentBot,
     routing: routerReducer
 });
+
+/* 
+
+STATE LAYOUT
+
+{
+  currentBot: 'api-key-here',
+  users: {
+    2 {
+      id: 2,
+      name: 'andrew'
+    }
+  }
+
+  channels: {
+    7 {
+      id: 7
+
+    }
+  }
+}
+{
+  selectedSubreddit: 'frontend',
+  entities: {
+    users: {
+      2: {
+        id: 2,
+        name: 'Andrew'
+      }
+    },
+    posts: {
+      42: {
+        id: 42,
+        title: 'Confusion about Flux and Relay',
+        author: 2
+      },
+      100: {
+        id: 100,
+        title: 'Creating a Simple Application Using React JS and Flux Architecture',
+        author: 2
+      }
+    }
+  },
+  postsBySubreddit: {
+    frontend: {
+      isFetching: true,
+      didInvalidate: false,
+      items: []
+    },
+    reactjs: {
+      isFetching: false,
+      didInvalidate: false,
+      lastUpdated: 1439478405547,
+      items: [ 42, 100 ]
+    }
+  }
+}
+*/

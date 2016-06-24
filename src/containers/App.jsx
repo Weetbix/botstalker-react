@@ -4,19 +4,27 @@ import { connect } from 'react-redux'
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 
+import { selectBot } from '../actions/actions';
+
 class App extends Component {
+
+  propTypes: {
+    onSearchForBot : propTypes.func.required
+  }
+
   render() {
     return (
     <div>
         <div className="site-content">
             <Header />
-            <SearchBar />
-            { this.props.children }
+            <SearchBar onSearch={ this.props.onSearchForBot } />
             <div className="ui container very basic segment">
                 <div id="pagecontrols-region"></div>
-
                 <div id="loading-region"></div>
-                <div id="content-region"></div>
+
+                <div id="content-region">
+                  { this.props.children }
+                </div>
             </div>
         </div>
         
@@ -28,6 +36,15 @@ class App extends Component {
   }
 }
 
+function mapStateToProps(state){
+  return {};
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    onSearchForBot: api_key => dispatch(selectBot(api_key))
+  }
+}
 /*
 App.propTypes = {
   selectedReddit: PropTypes.string.isRequired,
@@ -59,4 +76,4 @@ function mapStateToProps(state) {
 
 
 
-export default App;//connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
