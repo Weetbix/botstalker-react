@@ -89,12 +89,26 @@ STATE LAYOUT
       name: 'andrew'
     }
   }
-
-  channels: {
-    7 {
-      id: 7
-
+  channelsByBot: {
+    43r4f: {
+      channels: [
+        {
+          user: IF34F
+        } 
+      ],
+      lastUpdated: 3-34-3
+  }
+  messagesByChannel: {
+    IDFDF: {
+      isLoading: true,
+      lastUpdated: 3-43-4
+      messages: {
+        type: 'messages',
+        ts: 121233.1t,
+        text: 'rah rah'
+      }
     }
+
   }
 }
 {

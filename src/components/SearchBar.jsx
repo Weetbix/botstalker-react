@@ -8,12 +8,20 @@ export default class extends Component {
 
     constructor(){
         super();
+        this.state = {
+            value: ''
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleSubmit(event){
         event.preventDefault();
-        this.props.onSearch( event.target.value );
+        this.props.onSearch( this.state.value );
+    }
+
+    handleChange(event){
+        this.setState({ value: event.target.value });
     }
 
     render() {
@@ -25,7 +33,9 @@ export default class extends Component {
                         <div className="ui fluid icon input">
                             <input type="text"
                                    id="search-term"
-                                   placeholder="Enter your bot API key" />
+                                   placeholder="Enter your bot API key"
+                                   value={ this.state.value }
+                                   onChange={ this.handleChange } />
                             <i className="search icon"></i>
                         </div>
                     </form>

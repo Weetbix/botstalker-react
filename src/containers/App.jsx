@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { push } from 'react-router-redux'
 
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
@@ -42,7 +43,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    onSearchForBot: api_key => dispatch(selectBot(api_key))
+    onSearchForBot: api_key => dispatch(push(`/${api_key}`))
   }
 }
 /*

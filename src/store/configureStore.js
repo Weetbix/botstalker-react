@@ -1,4 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
+import { hashHistory } from 'react-router'
+import { routerMiddleware } from 'react-router-redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
@@ -8,7 +10,10 @@ export default function configureStore(preloadedState) {
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(thunkMiddleware, createLogger()),
+      applyMiddleware(
+        routerMiddleware(hashHistory),
+        thunkMiddleware,
+        createLogger()),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   )
