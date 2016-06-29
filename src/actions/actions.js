@@ -20,7 +20,17 @@ export function receiveChannels( api_key, json ){
     return {
         type: RECEIVE_CHANNELS,
         api_key,
-        conversations: 'rah',
+        channels: json.ims,
         receivedAt: Date.now()
     };
+}
+
+export function fetchChannels( api_key ){
+    return dispatch => {
+        dispatch(requestChannels(api_key));
+
+        return fetch(`https://slack.com/api/im.list?token=${api_key}`)
+            .then(response => response.json() )
+            .then(json => dispatch(receiveChannels(api_key, json)));
+    }
 }
