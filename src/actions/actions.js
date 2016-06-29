@@ -25,12 +25,47 @@ export function receiveChannels( api_key, json ){
     };
 }
 
+// Requests channels and any users required for the channel
 export function fetchChannels( api_key ){
     return dispatch => {
         dispatch(requestChannels(api_key));
 
         return fetch(`https://slack.com/api/im.list?token=${api_key}`)
             .then(response => response.json() )
-            .then(json => dispatch(receiveChannels(api_key, json)));
+            .then(json => {
+                dispatch(receiveChannels(api_key, json));
+                
+                // Request all the users in the channel
+                return Promise.all(
+                    json.ims.map( channel => dispatch(fetchUser(channel.user, api_key)) )
+                );
+            });
+    }
+}
+
+export const REQUEST_USER = 'REQUEST_USER';
+export function requestUser( userId ){
+    return { 
+        type: REQUEST_USER,
+        userId
+    }
+}
+
+export const RECEIVE_USER = 'RECEIVE_USER';
+export function receiveUser( userId, json ){
+    return {
+        type: RECEIVE_USER,
+        userId,
+        user: json.user
+    };
+}
+
+export function fetchUser( userId, api_key ){
+    return dispatch => {
+        dispatch(requestUser(userId));
+
+        return fetch(`https://slack.com/api/users.info?token=${api_key}&user=${userId}`)
+            .then(response => response.json() )
+            .then(json => dispatch(receiveUser(userId, json)));
     }
 }
