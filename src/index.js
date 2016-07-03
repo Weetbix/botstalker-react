@@ -5,8 +5,8 @@ import { Router, Route, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import App from './containers/App'
-import ChannelList from './components/ChannelList'
-import Channel from './components/Channel'
+import ChannelListPage from './components/ChannelListPage'
+import ChannelPage from './components/ChannelPage'
 import configureStore from './store/configureStore'
 
 import { selectBot, fetchChannels } from './actions/actions';
@@ -27,10 +27,10 @@ render(
     <Router history={history}>
       <Route path="/" component={App}>
           <Route path="/:api_key"
-                 component={ChannelList} 
+                 component={ChannelListPage} 
                  onEnter={channelListOnEnter} />
           <Route path="/:api_key/:channel_id"
-                 component={Channel}
+                 component={ChannelPage}
                  onEnter={ r => store.dispatch(selectBot( r.params.api_key )) } />
       </Route>
     </Router>

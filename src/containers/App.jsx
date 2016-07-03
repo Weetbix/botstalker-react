@@ -23,9 +23,7 @@ class App extends Component {
                 <div id="pagecontrols-region"></div>
                 <div id="loading-region"></div>
 
-                <div id="content-region">
-                  { this.props.children }
-                </div>
+                { this.props.children }
             </div>
         </div>
         

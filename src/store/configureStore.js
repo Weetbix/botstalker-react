@@ -13,7 +13,7 @@ export default function configureStore(preloadedState) {
       applyMiddleware(
         routerMiddleware(hashHistory),
         thunkMiddleware,
-        createLogger()),
+      ),//createLogger()),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   )
