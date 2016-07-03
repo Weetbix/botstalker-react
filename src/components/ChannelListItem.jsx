@@ -8,25 +8,10 @@ export default class extends Component {
         api_key : propTypes.string.required
     }
 
-    renderChannelImage(){
-        //      
-        //<a class="image" href="#channel/{{ token }}/{{ id }}">
-         //       {{else}}
-          //      <a class="image grayscale">
-         //       {{/if}}
-         //           <img src="{{ user.attributes.profile.image_192 }}">
-          //      </a>
-        return (
-            <a className="image" href="#channel/TOKENHERE/CHANNELIDHERE">
-                <img src="{{ user.attributes.profile.image_192 }}" />
-            </a>
-        );
-    }
-
     render() {
         return (
             <div className='card'>
-                <a className="image" href="#channel/TOKENHERE/CHANNELIDHERE">
+                <a className="image" href={ `#${this.props.apiKey}/${this.props.channel.id}` }>
                     <img src={ this.props.user.profile.image_192 } />
                 </a>
                 <div className="content">
