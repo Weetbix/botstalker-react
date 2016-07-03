@@ -37,9 +37,22 @@ export function fetchChannels( api_key ){
                 
                 // Request all the users in the channel
                 return Promise.all(
-                    json.ims.map( channel => dispatch(fetchUser(channel.user, api_key)) )
+                    json.ims.map( channel => dispatch(fetchUserIfNeeded(channel.user, api_key)) )
                 );
             });
+    }
+}
+
+function shouldFetchChannels( state, api_key ){
+    return !state.channelsByBot[api_key];
+}
+
+export function fetchChannelsIfNeeded( api_key ){
+    return (dispatch, getState) => {
+        if(shouldFetchChannels(getState(), api_key)){
+            return dispatch(fetchChannels(api_key));
+        }
+        return Promise.resolve();
     }
 }
 
@@ -68,4 +81,13 @@ export function fetchUser( userId, api_key ){
             .then(response => response.json() )
             .then(json => dispatch(receiveUser(userId, json)));
     }
+}
+
+export function fetchUserIfNeeded( userId, api_key ){
+    return (dispatch, getState) => {
+        if(!getState().users[userId]){
+            return dispatch(fetchUser(userId, api_key));
+        }
+        return Promise.resolve();
+    };
 }

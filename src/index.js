@@ -9,7 +9,7 @@ import ChannelListPage from './components/ChannelListPage'
 import ChannelPage from './components/ChannelPage'
 import configureStore from './store/configureStore'
 
-import { selectBot, fetchChannels } from './actions/actions';
+import { selectBot, fetchChannelsIfNeeded } from './actions/actions';
 
 const store = configureStore()
 
@@ -19,7 +19,7 @@ const history = syncHistoryWithStore(hashHistory, store)
 function channelListOnEnter(route){
   const api_key = route.params.api_key;
   store.dispatch(selectBot(api_key));
-  store.dispatch(fetchChannels(api_key));
+  store.dispatch(fetchChannelsIfNeeded(api_key));
 }
 
 render(
