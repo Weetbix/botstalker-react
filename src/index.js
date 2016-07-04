@@ -10,6 +10,7 @@ import ChannelPage from './components/ChannelPage'
 import configureStore from './store/configureStore'
 
 import { selectBot, fetchChannelsIfNeeded } from './actions/actions';
+import { fetchMessages } from './actions/messages';
 
 const store = configureStore()
 
@@ -22,6 +23,11 @@ function channelListOnEnter(route){
   store.dispatch(fetchChannelsIfNeeded(api_key));
 }
 
+function channelPageOnEnter(route){
+  const { api_key, channel_id } = route.params;
+  store.dispatch(fetchMessages(api_key, channel_id));
+}
+
 render(
   <Provider store={store}>
     <Router history={history}>
@@ -31,7 +37,7 @@ render(
                  onEnter={channelListOnEnter} />
           <Route path="/:api_key/:channel_id"
                  component={ChannelPage}
-                 onEnter={ r => store.dispatch(selectBot( r.params.api_key )) } />
+                 onEnter={ channelPageOnEnter } />
       </Route>
     </Router>
   </Provider>,
