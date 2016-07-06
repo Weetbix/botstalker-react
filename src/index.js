@@ -10,7 +10,8 @@ import ChannelPage from './components/ChannelPage'
 import configureStore from './store/configureStore'
 import Home from './components/Home';
 
-import { selectBot, fetchChannelsIfNeeded } from './actions/actions';
+import { selectBot } from './actions/selectBot';
+import { fetchChannelsIfNeeded } from './actions/channels';
 import { fetchMessages } from './actions/messages';
 
 const store = configureStore()

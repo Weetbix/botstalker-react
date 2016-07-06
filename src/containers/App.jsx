@@ -5,7 +5,7 @@ import { push } from 'react-router-redux'
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 
-import { selectBot } from '../actions/actions';
+import { selectBot } from '../actions/selectBot';
 
 class App extends Component {
 

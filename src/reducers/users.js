@@ -1,4 +1,4 @@
-import * as Actions from '../actions/actions';
+import * as Actions from '../actions/users';
 
 function user(
   state = {

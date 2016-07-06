@@ -1,4 +1,4 @@
-import { fetchUserIfNeeded } from './actions';
+import { fetchUserIfNeeded } from './users';
 
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 export function requestMessages( channelID ){

@@ -1,4 +1,4 @@
-import * as Actions from '../actions/actions';
+import * as Actions from '../actions/selectBot';
 
 export function currentBot(state = '', action){
   switch(action.type){
