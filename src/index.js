@@ -26,7 +26,6 @@ function channelListOnEnter(route){
 function channelPageOnEnter(route){
   const { api_key, channel_id } = route.params;
   store.dispatch(selectBot(api_key));
-  store.dispatch(fetchChannelsIfNeeded(api_key));
   store.dispatch(fetchMessages(api_key, channel_id));
 }
 

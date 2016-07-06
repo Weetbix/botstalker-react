@@ -1,3 +1,5 @@
+import { fetchUserIfNeeded } from './actions';
+
 export const REQUEST_MESSAGES = 'REQUEST_MESSAGES';
 export function requestMessages( channelID ){
     return { 
@@ -27,7 +29,18 @@ export function fetchMessages(api_key, channelID, count = 10, fromTime){
         return fetch(requestUrl)
             .then(response => response.json())
             .then(json => {
-                dispatch(receiveMessages(channelID, json));
+                // Request all the users in the messages
+                const usersInMessages = new Set(json.messages.map(m => m.user)
+                                                             .filter(u => typeof u !== 'undefined'));
+
+                const fetchUsersPromises = [...usersInMessages].map(user => dispatch(fetchUserIfNeeded(user, api_key)));
+
+                // We are finished with the action when all 
+                // users and all messages requested have been fetched
+                return Promise.all([
+                    ...fetchUsersPromises,
+                    dispatch(receiveMessages(channelID, json))
+                ]);
             });
     }
 }
