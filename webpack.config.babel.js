@@ -38,11 +38,12 @@ module.exports = {
       { from: 'static/', to: "../" }
     ]),
     
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
+    // Ruins debugging, only enable in production
+    //new webpack.optimize.UglifyJsPlugin({
+    //  compress: {
+    //    warnings: false
+    //  }
+    //}),
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
         'process.env': {
