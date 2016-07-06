@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import ChannelListItem from './ChannelListItem';
+import ChannelListItem from '../components/ChannelListItem';
 
 class ChannelListPage extends Component {
     propTypes : {

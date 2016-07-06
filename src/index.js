@@ -5,8 +5,8 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import App from './containers/App'
-import ChannelListPage from './components/ChannelListPage'
-import ChannelPage from './components/ChannelPage'
+import ChannelListPage from './containers/ChannelListPage'
+import ChannelPage from './containers/ChannelPage'
 import configureStore from './store/configureStore'
 import Home from './components/Home';
 

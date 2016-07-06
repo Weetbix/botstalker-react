@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import MessageList from './MessageList';
+import MessageList from '../components/MessageList';
 
 class ChannelPage extends Component {
     PropTypes: {
