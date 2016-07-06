@@ -18,7 +18,8 @@ class App extends Component {
     <div>
         <div className="site-content">
             <Header />
-            <SearchBar onSearch={ this.props.onSearchForBot } />
+            <SearchBar onSearch={ this.props.onSearchForBot }
+                       value={ this.props.currentBot } />
             <div className="ui container very basic segment">
                 <div id="pagecontrols-region"></div>
                 <div id="loading-region"></div>
@@ -36,7 +37,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state){
-  return {};
+  return {
+    currentBot : state.currentBot
+  };
 }
 
 function mapDispatchToProps(dispatch){
@@ -44,35 +47,5 @@ function mapDispatchToProps(dispatch){
     onSearchForBot: api_key => dispatch(push(`/${api_key}`))
   }
 }
-/*
-App.propTypes = {
-  selectedReddit: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  lastUpdated: PropTypes.number,
-  dispatch: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state) {
-  const { selectedReddit, postsByReddit } = state
-  const {
-    isFetching,
-    lastUpdated,
-    items: posts
-  } = postsByReddit[selectedReddit] || {
-    isFetching: true,
-    items: []
-  }
-
-  return {
-    selectedReddit,
-    posts,
-    isFetching,
-    lastUpdated
-  }
-}
-*/
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

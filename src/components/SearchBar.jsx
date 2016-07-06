@@ -3,16 +3,23 @@ import React, { Component } from 'react';
 export default class extends Component {
 
     propTypes: {
-        onSearch: propTypes.func.required
+        onSearch: propTypes.func.required,
+        value : propTypes.string
     }
 
-    constructor(){
+    constructor(props){
         super();
         this.state = {
-            value: ''
+            value: props.value || ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.state = {
+            value : nextProps.value || ''
+        }
     }
 
     handleSubmit(event){

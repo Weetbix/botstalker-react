@@ -22,7 +22,8 @@ class ChannelListPage extends Component {
         return (
             <div className='ui four link cards'>
             { loadedChannels.map( 
-                channel => <ChannelListItem channel={ channel } 
+                channel => <ChannelListItem key={ channel.id }
+                                            channel={ channel } 
                                             user={ this.props.users[ channel.user ] }
                                             apiKey={ this.props.apiKey }/>
             )}
