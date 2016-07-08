@@ -21,7 +21,8 @@ function channels(
     case Actions.RECEIVE_CHANNELS_FAILED:
       return {
         ...state,
-        isFetching : false
+        isFetching : false,
+        channels : []
       };
     default:
       return state;

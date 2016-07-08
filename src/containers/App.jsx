@@ -25,7 +25,7 @@ class App extends Component {
     const { header, message } = this.props.error;
     return <ErrorBox header={ header }
                      message={ message }
-                     on />
+                     onDismiss={ this.props.onClearError }/>
   }
 
   render() {

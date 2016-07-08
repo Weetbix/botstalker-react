@@ -7,10 +7,16 @@ export default class extends Component {
         onDismiss : PropTypes.func.required
     }
 
+    componentDidMount(){
+        this.refs.close.addEventListener(
+            'click',
+            this.props.onDismiss
+        );
+    }
     render() {
         return (
             <div className="ui negative message">
-                <i className="close icon" onClick={ () => this.props.onDismiss() }></i>
+                <i className="close icon" ref='close'></i>
                 <div className="header">{ this.props.header }</div>
                 <p>{ this.props.message }</p>
             </div>
