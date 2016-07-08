@@ -18,6 +18,11 @@ function channels(
         channels : action.channels,
         lastUpdacurted : action.receivedAt
       };
+    case Actions.RECEIVE_CHANNELS_FAILED:
+      return {
+        ...state,
+        isFetching : false
+      };
     default:
       return state;
   }
@@ -29,6 +34,7 @@ export function channelsByBot(
     switch (action.type) {
       case Actions.REQUEST_CHANNELS:
       case Actions.RECEIVE_CHANNELS:
+      case Actions.RECEIVE_CHANNELS_FAILED:
         return {
           ...state,
           [action.api_key] : channels( state[action.api_key], action )

@@ -4,6 +4,7 @@ State Example
 
 ```
 {
+  error: 'string here if error, null otherwise',
   currentBot: 'api-key-here',
   users: {
     2 {

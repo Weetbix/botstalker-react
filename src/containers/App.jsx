@@ -4,13 +4,28 @@ import { push } from 'react-router-redux'
 
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
+import ErrorBox from '../components/ErrorBox';
 
 import { selectBot } from '../actions/selectBot';
+import { clearError } from '../actions/error';
 
 class App extends Component {
 
   propTypes: {
-    onSearchForBot : propTypes.func.required
+    onSearchForBot : propTypes.func.required,
+    error : propTypes.object,
+    onClearError : propTypes.func
+  }
+
+  renderError(){
+    if(!this.props.error){
+      return null;
+    }
+
+    const { header, message } = this.props.error;
+    return <ErrorBox header={ header }
+                     message={ message }
+                     on />
   }
 
   render() {
@@ -23,7 +38,7 @@ class App extends Component {
             <div className="ui container very basic segment">
                 <div id="pagecontrols-region"></div>
                 <div id="loading-region"></div>
-
+                { this.renderError() }
                 { this.props.children }
             </div>
         </div>
@@ -38,13 +53,15 @@ class App extends Component {
 
 function mapStateToProps(state){
   return {
-    currentBot : state.currentBot
+    currentBot : state.currentBot,
+    error : state.error
   };
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    onSearchForBot: api_key => dispatch(push(`/${api_key}`))
+    onSearchForBot: api_key => dispatch(push(`/${api_key}`)),
+    onClearError : () => dispatch(clearError())
   }
 }
 

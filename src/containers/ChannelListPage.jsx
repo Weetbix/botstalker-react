@@ -33,22 +33,25 @@ class ChannelListPage extends Component {
 }
 
 function mapStateToProps(state){
+    const botChannels = state.channelsByBot[state.currentBot];
 
-    const isLoading = state.channelsByBot[state.currentBot].isFetching;
+    if( botChannels ){
+        const { isFetching, channels } = botChannels;
+           
+        if( isFetching )
+            return { isLoading : true };
+
+        const users = {};
+        channels.forEach(channel => users[channel.user] = state.users[channel.user]);
     
-    if( isLoading )
-        return { isLoading };
-
-    const channels = state.channelsByBot[state.currentBot].channels;
-    const users = {};
-    channels.forEach(channel => users[channel.user] = state.users[channel.user]);
+        return {
+            channels,
+            users,
+            isLoading : false,
+            apiKey : state.currentBot
+        };
+    }
  
-    return {
-        channels,
-        users,
-        isLoading,        
-        apiKey : state.currentBot
-    };
 }
 
 function mapDispatchToProps(dispatch){
