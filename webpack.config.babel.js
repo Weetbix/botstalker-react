@@ -5,6 +5,9 @@ import jquery from 'jquery';
 module.exports = {
   devtool: "source-map",
   entry: [
+    'webpack-dev-server/client?http://localhost:8080',
+    // Dont reload on syntax errors
+    'webpack/hot/only-dev-server',
     // Load the babel polyfill so we can use all es6 features
     'babel-polyfill',
     './src/index.js'
@@ -27,7 +30,11 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|static)/,
-        loader: 'babel-loader'
+        loaders: [
+          // Enable hot module replacement
+          'react-hot',
+          'babel-loader'
+        ]
       }
     ]
   },
