@@ -2,45 +2,45 @@ import * as Actions from '../actions/channels';
 
 function channels(
   state = {
-    isFetching : false,
-    channels : []
-  }, action ){
-  switch (action.type) {
+      isFetching: false,
+      channels: []
+  }, action) {
+    switch (action.type) {
     case Actions.REQUEST_CHANNELS:
-      return {
-        ...state,
-        isFetching : true
-      }
+        return {
+            ...state,
+            isFetching: true
+        };
     case Actions.RECEIVE_CHANNELS:
-      return {
-        ...state,
-        isFetching : false,
-        channels : action.channels,
-        lastUpdacurted : action.receivedAt
-      };
+        return {
+            ...state,
+            isFetching: false,
+            channels: action.channels,
+            lastUpdated: action.receivedAt
+        };
     case Actions.RECEIVE_CHANNELS_FAILED:
-      return {
-        ...state,
-        isFetching : false,
-        channels : []
-      };
+        return {
+            ...state,
+            isFetching: false,
+            channels: []
+        };
     default:
-      return state;
-  }
+        return state;
+    }
 }
 
 export function channelsByBot(
   state = {},
-  action ){
+  action) {
     switch (action.type) {
-      case Actions.REQUEST_CHANNELS:
-      case Actions.RECEIVE_CHANNELS:
-      case Actions.RECEIVE_CHANNELS_FAILED:
+    case Actions.REQUEST_CHANNELS:
+    case Actions.RECEIVE_CHANNELS:
+    case Actions.RECEIVE_CHANNELS_FAILED:
         return {
-          ...state,
-          [action.apiKey] : channels( state[action.apiKey], action )
-        }
-      default:
+            ...state,
+            [action.apiKey]: channels(state[action.apiKey], action)
+        };
+    default:
         return state;
     }
 }

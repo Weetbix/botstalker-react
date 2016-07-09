@@ -3,38 +3,38 @@ import { REQUEST_MESSAGES,
 
 function messages(
   state = {
-    isFetching : false,
-    messages : []
-  }, action ){
-  switch (action.type) {
+      isFetching: false,
+      messages: []
+  }, action) {
+    switch (action.type) {
     case REQUEST_MESSAGES:
-      return {
-        ...state,
-        isFetching : true
-      }
+        return {
+            ...state,
+            isFetching: true
+        };
     case RECEIVE_MESSAGES:
-      return {
-        ...state,
-        isFetching : false,
+        return {
+            ...state,
+            isFetching: false,
         // TODO: Change this to merging?
-        messages : state.messages.concat(action.messages)
-      };
+            messages: state.messages.concat(action.messages)
+        };
     default:
-      return state;
-  }
+        return state;
+    }
 }
 
 export function messagesByChannel(
   state = {},
-  action ){
+  action) {
     switch (action.type) {
-      case REQUEST_MESSAGES:
-      case RECEIVE_MESSAGES:
+    case REQUEST_MESSAGES:
+    case RECEIVE_MESSAGES:
         return {
-          ...state,
-          [action.channelID] : messages( state[action.channelID], action )
-        }
-      default:
+            ...state,
+            [action.channelID]: messages(state[action.channelID], action)
+        };
+    default:
         return state;
     }
 }

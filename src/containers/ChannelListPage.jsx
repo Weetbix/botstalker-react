@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import ChannelListItem from '../components/ChannelListItem';
 
 class ChannelListPage extends Component {
-    propTypes : {
-        channels : propTypes.array.required,
-        isLoading : propTypes.bool.required
+    static propTypes = {
+        channels: PropTypes.array.required,
+        users: PropTypes.array.required,
+        apiKey: PropTypes.string.required,
+        isLoading: PropTypes.bool.required
     }
 
     render() {
-        if( this.props.isLoading ) return <h1>Loading</h1>;
+        if (this.props.isLoading) return <h1>Loading</h1>;
 
         const loadedChannels = this.props.channels.filter(
             channel => {
@@ -20,49 +22,52 @@ class ChannelListPage extends Component {
         );
 
         return (
-            <div className='ui four link cards'>
-            { loadedChannels.map( 
-                channel => <ChannelListItem key={ channel.id }
-                                            channel={ channel } 
-                                            user={ this.props.users[ channel.user ] }
-                                            apiKey={ this.props.apiKey }/>
+            <div className="ui four link cards">
+            {loadedChannels.map(
+                channel => <ChannelListItem key={channel.id}
+                    channel={channel}
+                    user={this.props.users[channel.user]}
+                    apiKey={this.props.apiKey} />
             )}
             </div>
         );
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     const botChannels = state.channelsByBot[state.currentBot];
 
-    if( botChannels ){
+    if (botChannels) {
         const { isFetching, channels } = botChannels;
-           
-        if( isFetching )
-            return { isLoading : true };
+
+        if (isFetching)
+            return { isLoading: true };
 
         const users = {};
-        channels.forEach(channel => users[channel.user] = state.users[channel.user]);
-    
+        channels.forEach(channel => {
+            users[channel.user] = state.users[channel.user];
+        });
+
         return {
             channels,
             users,
-            isLoading : false,
-            apiKey : state.currentBot
+            isLoading: false,
+            apiKey: state.currentBot
         };
     }
 
     return {
-        channels : [],
-        isLoading : false,
-        users : [],
-        apiKey : state.currentBot
-    }
- 
+        channels: [],
+        isLoading: false,
+        users: [],
+        apiKey: state.currentBot
+    };
+
 }
 
-function mapDispatchToProps(dispatch){
-  return {};
+function mapDispatchToProps() {
+    return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChannelListPage)
+;

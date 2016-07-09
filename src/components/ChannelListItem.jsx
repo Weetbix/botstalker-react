@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 
 
 export default class extends Component {
-    propTypes: {
-        user : PropTypes.object.required,
-        channel : PropTypes.object.required,
-        apiKey : PropTypes.string.required
+    static propTypes = {
+        user: PropTypes.object.required,
+        channel: PropTypes.object.required,
+        apiKey: PropTypes.string.required
     }
 
     render() {
