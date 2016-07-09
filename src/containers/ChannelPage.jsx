@@ -6,7 +6,7 @@ import MessageList from '../components/MessageList';
 class ChannelPage extends Component {
     static propTypes = {
         messages: PropTypes.array.required,
-        isLoading: PropTypes.boolean.required,
+        isLoading: PropTypes.bool.required,
         userMap: PropTypes.object.required
     }
 
