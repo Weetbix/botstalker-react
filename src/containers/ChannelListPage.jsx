@@ -51,6 +51,13 @@ function mapStateToProps(state){
             apiKey : state.currentBot
         };
     }
+
+    return {
+        channels : [],
+        isLoading : false,
+        users : [],
+        apiKey : state.currentBot
+    }
  
 }
 
