@@ -42,7 +42,7 @@ class App extends Component {
                 { this.props.children }
             </div>
         </div>
-        
+
         <div id="footer" className="ui center aligned very basic segment">
         <span>By John Hannagan - </span><a className="item" href="http://github.com/weetbix/botstalker">Github</a>
         </div>
@@ -60,7 +60,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    onSearchForBot: api_key => dispatch(push(`/${api_key}`)),
+    onSearchForBot: apiKey => dispatch(push(`/${apiKey}`)),
     onClearError : () => dispatch(clearError())
   }
 }

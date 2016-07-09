@@ -1,66 +1,66 @@
-import { fetchUserIfNeeded } from './users'; 
-import { setError }          from './error';
+import { fetchUserIfNeeded } from './users';
+import { setError } from './error';
 
 export const REQUEST_CHANNELS = 'REQUEST_CHANNELS';
-export function requestChannels( api_key ){
-    return { 
+export function requestChannels(apiKey) {
+    return {
         type: REQUEST_CHANNELS,
-        api_key
-    }
+        apiKey
+    };
 }
 
 export const RECEIVE_CHANNELS = 'RECIEVE_CHANNELS';
-export function receiveChannels( api_key, json ){
+export function receiveChannels(apiKey, json) {
     return {
         type: RECEIVE_CHANNELS,
-        api_key,
+        apiKey,
         channels: json.ims,
         receivedAt: Date.now()
     };
 }
 
 export const RECEIVE_CHANNELS_FAILED = 'RECEIVE_CHANNELS_FAILED';
-export function receiveChannelsFailed( api_key ){
+export function receiveChannelsFailed(apiKey) {
     return {
-        type : RECEIVE_CHANNELS_FAILED,
-        api_key
-    }
+        type: RECEIVE_CHANNELS_FAILED,
+        apiKey
+    };
 }
 
 // Requests channels and any users required for the channel
-export function fetchChannels( api_key ){
+export function fetchChannels(apiKey) {
     return dispatch => {
-        dispatch(requestChannels(api_key));
+        dispatch(requestChannels(apiKey));
 
-        return fetch(`https://slack.com/api/im.list?token=${api_key}`)
-            .then(response => response.json() )
+        return fetch(`https://slack.com/api/im.list?token=${apiKey}`)
+            .then(response => response.json())
             .then(json => {
-                dispatch(receiveChannels(api_key, json));
-                
+                dispatch(receiveChannels(apiKey, json));
+
                 // Request all the users in the channel
                 return Promise.all(
-                    json.ims.map( channel => dispatch(fetchUserIfNeeded(channel.user, api_key)) )
+                    json.ims.map(channel => dispatch(fetchUserIfNeeded(channel.user, apiKey)))
                 );
             })
-            .catch( error => {
-                dispatch(receiveChannelsFailed(api_key));
+            .catch(error => {
+                dispatch(receiveChannelsFailed(apiKey));
                 dispatch(setError(
-                    `Couldn't load channels`,
+                    'Couldn\'t load channels',
                     `Unable to load the channels for that bot: ${error.message}`
                 ));
             });
-    }
+    };
 }
 
-function shouldFetchChannels( state, api_key ){
-    return !state.channelsByBot[api_key];
+function shouldFetchChannels(state, apiKey) {
+    return !state.channelsByBot[apiKey];
 }
 
-export function fetchChannelsIfNeeded( api_key ){
+export function fetchChannelsIfNeeded(apiKey) {
     return (dispatch, getState) => {
-        if(shouldFetchChannels(getState(), api_key)){
-            return dispatch(fetchChannels(api_key));
+        if (shouldFetchChannels(getState(), apiKey)) {
+            return dispatch(fetchChannels(apiKey));
         }
         return Promise.resolve();
-    }
+    };
 }

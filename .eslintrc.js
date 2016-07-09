@@ -4,6 +4,9 @@ module.exports = {
         "airbnb"
     ],
     "rules": {
-        "indent": [2, 4]
+        "indent": [2, 4],
+        "comma-dangle": ["error", "never"],
+        "react/prefer-stateless-function" : "off",
+        "react/jsx-indent": ["error", 4]
     }
 };

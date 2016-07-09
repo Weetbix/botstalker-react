@@ -38,7 +38,7 @@ export function channelsByBot(
       case Actions.RECEIVE_CHANNELS_FAILED:
         return {
           ...state,
-          [action.api_key] : channels( state[action.api_key], action )
+          [action.apiKey] : channels( state[action.apiKey], action )
         }
       default:
         return state;

@@ -8,6 +8,9 @@ export default class extends Component {
     }
 
     componentDidMount(){
+        if( this.isMounted() ){
+            
+        }
         this.refs.close.addEventListener(
             'click',
             this.props.onDismiss

@@ -24,25 +24,25 @@ function homeOnEnter(){
 }
 
 function channelListOnEnter(route){
-  const api_key = route.params.api_key;
-  store.dispatch(selectBot(api_key));
-  store.dispatch(fetchChannelsIfNeeded(api_key));
+  const apiKey = route.params.api_key;
+  store.dispatch(selectBot(apiKey));
+  store.dispatch(fetchChannelsIfNeeded(apiKey));
 }
 
 function channelPageOnEnter(route){
   const { api_key, channel_id } = route.params;
-  store.dispatch(selectBot(api_key));
-  store.dispatch(fetchMessages(api_key, channel_id));
+  store.dispatch(selectBot(apiKey));
+  store.dispatch(fetchMessages(apiKey, channel_id));
 }
 
 render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-          <IndexRoute component={ Home } 
+          <IndexRoute component={ Home }
                       onEnter={ homeOnEnter } />
           <Route path="/:api_key"
-                 component={ChannelListPage} 
+                 component={ChannelListPage}
                  onEnter={channelListOnEnter} />
           <Route path="/:api_key/:channel_id"
                  component={ChannelPage}
