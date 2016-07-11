@@ -39,11 +39,13 @@ export function channelsByBot(
             ...state,
             [action.apiKey]: channels(state[action.apiKey], action)
         };
-    case Actions.RECEIVE_CHANNELS_FAILED:
+    case Actions.RECEIVE_CHANNELS_FAILED: {
         // Remove any failed channels from the state
+        // otherwise it wont attempt to reload next time
         const newState = { ...state };
         delete newState[action.apiKey];
         return newState;
+    }
     default:
         return state;
     }
