@@ -35,11 +35,15 @@ export function channelsByBot(
     switch (action.type) {
     case Actions.REQUEST_CHANNELS:
     case Actions.RECEIVE_CHANNELS:
-    case Actions.RECEIVE_CHANNELS_FAILED:
         return {
             ...state,
             [action.apiKey]: channels(state[action.apiKey], action)
         };
+    case Actions.RECEIVE_CHANNELS_FAILED:
+        // Remove any failed channels from the state
+        const newState = { ...state };
+        delete newState[action.apiKey];
+        return newState;
     default:
         return state;
     }
