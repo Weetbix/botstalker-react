@@ -13,17 +13,21 @@ export function receiveMessages(channelID, json) {
     return {
         type: RECEIVE_MESSAGES,
         channelID,
-        messages: json.messages
+        messages: json.messages,
+        hasMore: json.has_more,
+        isLimited: json.is_limited
     };
 }
 
-export function fetchMessages(apiKey, channelID, count = 10, fromTime) {
+// Fetches #count messages backwards, from 'latest'. If latest
+// is omitted, the most recent messages are fetched
+export function fetchMessages(apiKey, channelID, count = 10, latest) {
     return dispatch => {
         dispatch(requestMessages(channelID));
 
         let requestUrl = `https://slack.com/api/im.history?token=${apiKey}&channel=${channelID}&count=${count}`;
-        if (fromTime) {
-            requestUrl += `&latest=${fromTime}`;
+        if (latest) {
+            requestUrl += `&latest=${latest}`;
         }
 
         return fetch(requestUrl)
@@ -33,7 +37,9 @@ export function fetchMessages(apiKey, channelID, count = 10, fromTime) {
                 const usersInMessages = new Set(json.messages.map(m => m.user)
                                                              .filter(u => typeof u !== 'undefined'));
 
-                const fetchUsersPromises = [...usersInMessages].map(user => dispatch(fetchUserIfNeeded(user, apiKey)));
+                const fetchUsersPromises = [...usersInMessages].map(
+                    user => dispatch(fetchUserIfNeeded(user, apiKey))
+                );
 
                 // We are finished with the action when all
                 // users and all messages requested have been fetched

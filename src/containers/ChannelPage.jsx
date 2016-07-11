@@ -8,13 +8,17 @@ class ChannelPage extends Component {
     static propTypes = {
         messages: PropTypes.array.required,
         isLoading: PropTypes.bool.required,
-        userMap: PropTypes.object.required
+        userMap: PropTypes.object.required,
+        hasMore: PropTypes.bool.required,
+        isLimited: PropTypes.bool.required
     }
 
     render() {
         const { isLoading,
                 messages,
-                userMap } = this.props;
+                userMap,
+                hasMore,
+                isLimited } = this.props;
 
         if (isLoading) {
             return <LoadingSpinner />;
@@ -23,7 +27,9 @@ class ChannelPage extends Component {
         return (
             <MessageList
                 messages={messages}
-                usersByID={userMap} />
+                usersByID={userMap}
+                hasMore={hasMore}
+                isLimited={isLimited} />
         );
     }
 }
@@ -32,21 +38,28 @@ class ChannelPage extends Component {
 function mapStateToProps(state, ownProps) {
     const channelID = ownProps.params.channel_id;
 
-    const messages = state.messagesByChannel[channelID].messages;
+    const {
+        messagesByChannel,
+        users
+    } = state;
+
+    const messages = messagesByChannel[channelID].messages;
 
     const usersInMessages = new Set(messages.map(m => m.user)
                                             .filter(u => typeof u !== 'undefined'));
     const userMap = {};
-    usersInMessages.forEach(u => userMap[u] = state.users[u]);
+    usersInMessages.forEach(u => userMap[u] = users[u]);
 
     const isLoadingUsers = Object.keys(userMap).map(u => userMap[u].isFetching);
-    const isLoading = state.messagesByChannel[channelID].isFetching ||
+    const isLoading = messagesByChannel[channelID].isFetching ||
                       isLoadingUsers.some(loading => loading === true);
 
     return {
         messages,
         userMap,
-        isLoading
+        isLoading,
+        hasMore: messagesByChannel[channelID].hasMore,
+        isLimited: messagesByChannel[channelID].isLimited
     };
 }
 

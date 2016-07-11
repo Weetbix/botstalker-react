@@ -12,13 +12,19 @@ function messages(
             ...state,
             isFetching: true
         };
-    case RECEIVE_MESSAGES:
+    case RECEIVE_MESSAGES: {
+        const { messages,
+                hasMore,
+                isLimited } = action;
         return {
             ...state,
             isFetching: false,
-        // TODO: Change this to merging?
-            messages: state.messages.concat(action.messages)
+            // TODO: Change this to merging?
+            messages: messages.concat(state.messages),
+            hasMore,
+            isLimited
         };
+    }
     default:
         return state;
     }

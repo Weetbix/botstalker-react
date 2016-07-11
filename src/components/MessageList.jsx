@@ -5,7 +5,9 @@ import MessageListItem from './MessageListItem';
 export default class extends Component {
     static propTypes = {
         messages: PropTypes.array,
-        usersByID: PropTypes.object
+        usersByID: PropTypes.object,
+        hasMore: PropTypes.bool,
+        isLimited: PropTypes.bool
     }
 
     renderMessages() {
@@ -31,11 +33,32 @@ export default class extends Component {
         });
     }
 
+    renderMessageInfos() {
+        if (this.props.isLimited) {
+            return (
+                <div className="ui top attached info message center aligned">
+                    <i className="info icon"></i>
+                    <span>There are more messages to display but your Slack channel history is limited</span>
+                </div>
+            );
+        } else if (this.props.hasMore) {
+            return (
+                <div className="ui top attached center aligned segment">
+                    <span>Load previous messages</span>
+                </div>
+            );
+        }
+        return null;
+    }
+
     render() {
         return (
-            <div className="ui segment">
-                <div className="ui list">
-                    {this.renderMessages()}
+            <div>
+                {this.renderMessageInfos()}
+                <div className="ui bottom attached segment">
+                    <div className="ui list">
+                        {this.renderMessages()}
+                    </div>
                 </div>
             </div>
         );
