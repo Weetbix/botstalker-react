@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import ChannelListItem from '../components/ChannelListItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 class ChannelListPage extends Component {
     static propTypes = {
@@ -12,13 +13,20 @@ class ChannelListPage extends Component {
     }
 
     render() {
-        if (this.props.isLoading) return <h1>Loading</h1>;
+        const { users,
+                channels,
+                isLoading,
+                apiKey } = this.props;
 
-        const loadedChannels = this.props.channels.filter(
-            channel => {
-                const channelUser = this.props.users[channel.user];
-                return channelUser && !channelUser.isFetching;
-            }
+        // If the channel data is loading, show a spinner
+        if (isLoading) {
+            return <LoadingSpinner />;
+        }
+
+        // Otherwise show the loaded channels as they load
+        const loadedChannels = channels.filter(
+            channel => users[channel.user] &&
+                       !users[channel.user].isFetching
         );
 
         return (
@@ -26,8 +34,8 @@ class ChannelListPage extends Component {
             {loadedChannels.map(
                 channel => <ChannelListItem key={channel.id}
                     channel={channel}
-                    user={this.props.users[channel.user]}
-                    apiKey={this.props.apiKey} />
+                    user={users[channel.user]}
+                    apiKey={apiKey} />
             )}
             </div>
         );
@@ -56,6 +64,7 @@ function mapStateToProps(state) {
         };
     }
 
+    // Defaults when the channel is not found
     return {
         channels: [],
         isLoading: false,

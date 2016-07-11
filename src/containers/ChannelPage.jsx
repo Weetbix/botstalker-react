@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import MessageList from '../components/MessageList';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 class ChannelPage extends Component {
     static propTypes = {
@@ -11,14 +12,18 @@ class ChannelPage extends Component {
     }
 
     render() {
-        if (this.props.isLoading) {
-            return <h3>Loading</h3>;
+        const { isLoading,
+                messages,
+                userMap } = this.props;
+
+        if (isLoading) {
+            return <LoadingSpinner />;
         }
 
         return (
             <MessageList
-                messages={this.props.messages}
-                usersByID={this.props.userMap} />
+                messages={messages}
+                usersByID={userMap} />
         );
     }
 }
@@ -29,11 +34,11 @@ function mapStateToProps(state, ownProps) {
 
     const messages = state.messagesByChannel[channelID].messages;
 
-
     const usersInMessages = new Set(messages.map(m => m.user)
                                             .filter(u => typeof u !== 'undefined'));
     const userMap = {};
     usersInMessages.forEach(u => userMap[u] = state.users[u]);
+
     const isLoadingUsers = Object.keys(userMap).map(u => userMap[u].isFetching);
     const isLoading = state.messagesByChannel[channelID].isFetching ||
                       isLoadingUsers.some(loading => loading === true);
@@ -45,8 +50,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelPage);
+export default connect(mapStateToProps)(ChannelPage);
