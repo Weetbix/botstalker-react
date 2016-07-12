@@ -45,8 +45,11 @@ export function fetchChannels(apiKey) {
                 dispatch(receiveChannels(apiKey, json));
 
                 // Request all the users in the channel
+                const usersRequests = json.ims.map(
+                    channel => dispatch(fetchUserIfNeeded(channel.user, apiKey))
+                );
                 return Promise.all(
-                    json.ims.map(channel => dispatch(fetchUserIfNeeded(channel.user, apiKey)))
+                   usersRequests
                 );
             })
             .catch(error => {

@@ -50,3 +50,18 @@ export function fetchMessages(apiKey, channelID, count = 10, latest) {
             });
     };
 }
+
+function shouldFetchMessages(state, apiKey, channelID) {
+    const channelMessages = state.messagesByChannel[channelID];
+    return !channelMessages;
+
+}
+
+export function fetchMessagesIfNeeded(apiKey, channelID) {
+    return (dispatch, getState) => {
+        if (shouldFetchMessages(getState(), apiKey, channelID)) {
+            return dispatch(fetchMessages(apiKey, channelID));
+        }
+        return Promise.resolve();
+    };
+}

@@ -12,7 +12,7 @@ import Home from './components/Home';
 
 import { selectBot } from './actions/selectBot';
 import { fetchChannelsIfNeeded } from './actions/channels';
-import { fetchMessages } from './actions/messages';
+import { fetchMessagesIfNeeded } from './actions/messages';
 import { clearError } from './actions/error';
 
 const store = configureStore();
@@ -36,7 +36,7 @@ function channelPageOnEnter(route) {
     const { api_key, channel_id } = route.params;
     store.dispatch(clearError());
     store.dispatch(selectBot(api_key));
-    store.dispatch(fetchMessages(api_key, channel_id));
+    store.dispatch(fetchMessagesIfNeeded(api_key, channel_id));
 }
 
 render(
