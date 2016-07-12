@@ -13,14 +13,18 @@ function messages(
             isFetching: true
         };
     case RECEIVE_MESSAGES: {
-        const { messages,
-                hasMore,
+        const { hasMore,
                 isLimited } = action;
+
+        // Organise the messages so they are
+        // decending by time
+        action.messages.reverse();
+
         return {
             ...state,
             isFetching: false,
             // TODO: Change this to merging?
-            messages: messages.concat(state.messages),
+            messages: action.messages.concat(state.messages),
             hasMore,
             isLimited
         };
