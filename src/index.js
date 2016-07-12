@@ -13,6 +13,7 @@ import Home from './components/Home';
 import { selectBot } from './actions/selectBot';
 import { fetchChannelsIfNeeded } from './actions/channels';
 import { fetchMessages } from './actions/messages';
+import { clearError } from './actions/error';
 
 const store = configureStore();
 
@@ -21,16 +22,19 @@ const history = syncHistoryWithStore(hashHistory, store);
 
 function homeOnEnter() {
     store.dispatch(selectBot(''));
+    store.dispatch(clearError());
 }
 
 function channelListOnEnter(route) {
     const apiKey = route.params.api_key;
+    store.dispatch(clearError());
     store.dispatch(selectBot(apiKey));
     store.dispatch(fetchChannelsIfNeeded(apiKey));
 }
 
 function channelPageOnEnter(route) {
     const { api_key, channel_id } = route.params;
+    store.dispatch(clearError());
     store.dispatch(selectBot(api_key));
     store.dispatch(fetchMessages(api_key, channel_id));
 }
