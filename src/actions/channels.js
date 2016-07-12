@@ -1,4 +1,5 @@
 import { fetchUserIfNeeded } from './users';
+import { fetchMessagesIfNeeded } from './messages';
 import { setError } from './error';
 
 export const REQUEST_CHANNELS = 'REQUEST_CHANNELS';
@@ -44,13 +45,18 @@ export function fetchChannels(apiKey) {
 
                 dispatch(receiveChannels(apiKey, json));
 
-                // Request all the users in the channel
+                // Request all the users in the channel, and prefetch
+                // 10 messages so we can show a message count
                 const usersRequests = json.ims.map(
                     channel => dispatch(fetchUserIfNeeded(channel.user, apiKey))
                 );
-                return Promise.all(
-                   usersRequests
-                );
+                const messageRequests = json.ims.map(
+                    channel => dispatch(fetchMessagesIfNeeded(apiKey, channel.id))
+                )
+                return Promise.all([
+                    ...usersRequests,
+                    ...messageRequests
+                ]);
             })
             .catch(error => {
                 dispatch(receiveChannelsFailed(apiKey));

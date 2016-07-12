@@ -43,17 +43,27 @@ class ChannelListPage extends Component {
 }
 
 function mapStateToProps(state) {
+
     const botChannels = state.channelsByBot[state.currentBot];
 
     if (botChannels) {
-        const { isFetching, channels } = botChannels;
-
-        if (isFetching)
+        if (botChannels.isFetching)
             return { isLoading: true };
 
+        const channels = [...botChannels.channels];
         const users = {};
         channels.forEach(channel => {
             users[channel.user] = state.users[channel.user];
+        });
+
+        // Add a message count property for any channels
+        // that have finished prefetching messages
+        channels.forEach(channel => {
+            const messageList = state.messagesByChannel[channel.id];
+            if (messageList &&
+               !messageList.isFetching) {
+                   channel.messageCount = messageList.messages.length;
+            }
         });
 
         return {
