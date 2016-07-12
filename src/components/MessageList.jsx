@@ -20,6 +20,11 @@ export default class extends Component {
     }
 
     renderMessages() {
+        if (this.props.messages.length === 0 &&
+            !this.props.isLoadingMore) {
+            return <span>There are no messages in this channel</span>;
+        }
+
         return this.props.messages.map(msg => {
             // Replace bot messages with a bot user
             let user;
