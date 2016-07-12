@@ -35,6 +35,13 @@ export function fetchChannels(apiKey) {
         return fetch(`https://slack.com/api/im.list?token=${apiKey}`)
             .then(response => response.json())
             .then(json => {
+                if (!json.ok) {
+                    if (json.error === 'invalid_auth'){
+                        throw new Error('The API key you entered is invalid');
+                    }
+                    throw new Error(json.error);
+                }
+
                 dispatch(receiveChannels(apiKey, json));
 
                 // Request all the users in the channel
